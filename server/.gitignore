@@ -1,0 +1,45 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Logs
+logs
+*.log
+*.log.*
+
+# Environment files
+.env
+.env.*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Optional NPM cache directory
+.npm
+
+# Binaries
+*.exe
+*.out
+*.app
+
+# Coverage directory
+coverage/
+
+# Temporary files
+tmp/
+temp/
+
+# IDE files (optional, depending on your editor)
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Build directory (if using any build tool or bundler)
+dist/
+build/
