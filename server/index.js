@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-
+import file from './routes/FileHandleRoute.js'
 dotenv.config();
 const app = express();
 
@@ -12,6 +12,7 @@ app.get('/', (req, res) => {
   });
 
 
+  app.use('/file', file)
 
 
 
