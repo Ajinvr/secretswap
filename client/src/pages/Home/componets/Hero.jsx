@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Hero() {
+  let navigate = useNavigate()
   return (
     <div className='flex flex-col justify-center items-center h-screen bg-gray-900'>
       <h1 className='text-white text-4xl md:text-7xl text-center px-8 mb-8'>
@@ -10,7 +12,7 @@ function Hero() {
         </a>{' '}
         Share and download files completely anonymously
       </h1>
-      <button className='px-8 py-4 bg-blue-600 text-white rounded-lg transition duration-300'>
+      <button onClick={()=>{navigate('/download')}} className='px-8 py-4 bg-blue-600 text-white rounded-lg transition duration-300'>
         Get Started
       </button>
     </div>
