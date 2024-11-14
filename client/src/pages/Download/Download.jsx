@@ -18,7 +18,7 @@ function Download() {
           `${backendUrl}/file/download`,
           {
             params: { key: inputValue },
-            responseType: 'blob', 
+            responseType: 'blob',
           }
         );
 
@@ -37,28 +37,32 @@ function Download() {
 
         toast.success('Download successful!', { id: toastId });
       } catch (error) {
-        toast.error( error.response.data.error || 'Download failed. Please try again.', { id: toastId });
+        toast.error(error.response.data.error || 'Download failed. Please try again.', { id: toastId });
       }
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900">
-      <div className="flex flex-col items-center">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r bg-gray-900">
+      <div className="bg-white p-8 rounded-xl shadow-lg w-full sm:w-96 space-y-6">
+        <h2 className="text-3xl font-semibold text-center text-gray-900">Download File</h2>
         <input
           type="text"
           value={inputValue}
           onChange={handleInputChange}
-          placeholder="Enter the code"
-          className="border p-2 rounded mb-4"
+          placeholder="Enter the access code"
+          className="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 transition"
         />
         <button
           onClick={handleDownload}
           disabled={!inputValue}
-          className={`p-2 rounded ${inputValue ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+          className={`w-full p-3 text-lg font-semibold rounded-lg transition duration-300 ease-in-out ${inputValue ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
         >
           Download
         </button>
+        <div className="text-center text-sm text-gray-600">
+          <p>Enter the access code to download your file</p>
+        </div>
       </div>
     </div>
   );
