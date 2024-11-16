@@ -44,7 +44,7 @@ function Download() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r bg-gray-900">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full sm:w-96 space-y-6">
+      <div className="bg-gray-100 p-8 rounded-xl shadow-lg w-full sm:w-96 space-y-6">
         <h2 className="text-3xl font-semibold text-center text-gray-900">Download File</h2>
         <input
           type="text"

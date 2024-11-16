@@ -1,70 +1,46 @@
-import fs from 'fs';
-import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
 import cloudinary from '../Db/config/cloudinaryConfig.js';
 import File from '../Db/models/FileModel.js';
-import multer from 'multer';
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage });
-
-
 
 export const FileUploadHandler = async (req, res) => {
   try {
-    console.log(req.file);
-    if (!req.file) {
-      return res.status(400).json({ error: 'No file uploaded' });
-    }
-
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: 'uploads',
-      use_filename: true,
-    });
-
-    fs.unlinkSync(req.file.path);
-
-    const uniqueKey = uuidv4();
-    const newFile = new File({
-      key: uniqueKey,
-      url: result.secure_url,
-    });
-
-    await newFile.save();
-
-    res.json({ key: uniqueKey, url: result.secure_url });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'File could not be uploaded' });
-  }
-};
-
-export const FileDownloadHandler = async (req, res) => {
-  try {
-    const { key } = req.query;
-    const file = await File.findOne({ key });
+    const file = req.file;
 
     if (!file) {
-      return res.status(404).json({ error: 'File not found' });
+      return res.status(400).json({ message: 'No file uploaded' });
     }
 
-    const response = await axios.get(file.url, { responseType: 'stream' });
-    const contentType = response.headers['content-type'];
-    const extension = contentType.split('/')[1];
+    const result = cloudinary.uploader.upload_stream(
+      {
+        resource_type: 'auto',
+        public_id: file.newFileName,
+      },
+      async (error, result) => {
+        if (error) {
+          console.log('Error uploading file to Cloudinary:', error);
+          return res.status(500).json({ message: 'Error uploading file' });
+        }
 
-    res.setHeader('Content-Disposition', `attachment; filename="${key}.${extension}"`);
-    res.setHeader('Content-Type', contentType);
+        const fileNameWithoutExtension = file.newFileName.replace(/\.[^/.]+$/, "");
 
-    response.data.pipe(res);
+        try {
+          const newFile = await File.create({
+            key: fileNameWithoutExtension,
+            url: result.secure_url,
+          });
+
+          res.json({
+            key:newFile.key,
+          });
+        } catch (dbError) {
+          console.log('Error saving file to MongoDB:', dbError);
+          res.status(500).json({ message: 'Error saving file to database' });
+        }
+      }
+    );
+
+    result.end(file.buffer);
   } catch (error) {
-    res.status(500).json({ error: 'File could not be downloaded' });
+    console.log('Unexpected error:', error);
+    res.status(500).json({ message: error.message });
   }
 };

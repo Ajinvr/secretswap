@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
@@ -7,8 +7,17 @@ function Upload() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
+  const fileInputRef = useRef(null);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-  
+
+
+
+  function copykey() {
+    navigator.clipboard.writeText(uploadedFile)
+    toast.success('text copied to clipboard')
+  }
+
+
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
@@ -16,7 +25,6 @@ function Upload() {
     }
   };
 
-  
   const handleUpload = async () => {
     if (!file) {
       toast.error('Please select a file to upload');
@@ -24,27 +32,25 @@ function Upload() {
     }
 
     setUploading(true);
-    setError(null); 
+    setError(null);
 
     const formData = new FormData();
     formData.append('file', file);
 
     try {
-      const response = await axios.post( `${backendUrl}/file/upload`, formData, {
+      const response = await axios.post(`${backendUrl}/file/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
-      if (response.data.key && response.data.url) {
-        setUploadedFile({
-          key: response.data.key,
-          url: response.data.url,
-        });
-        toast.success('File uploaded successfully!');
+      if (response.data.key) {
+        setUploadedFile(response.data.key);
+        toast.success('File uploaded successfully');
+        setFile(null);
+        fileInputRef.current.value = '';
       } else {
-        setError('Error: No file key or URL received');
-        toast.error('Error: No file key or URL received');
+        toast.error('Error: No file key');
       }
     } catch (err) {
       setError('Error uploading file: ' + err.message);
@@ -52,6 +58,10 @@ function Upload() {
     } finally {
       setUploading(false);
     }
+  };
+
+  const handleInputClick = () => {
+    setUploadedFile(null);
   };
 
   return (
@@ -62,8 +72,11 @@ function Upload() {
           <input
             type="file"
             onChange={handleFileChange}
+            onClick={handleInputClick}
+            ref={fileInputRef}
             className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          
         </div>
         <button
           onClick={handleUpload}
@@ -80,16 +93,9 @@ function Upload() {
         )}
 
         {uploadedFile && (
-          <div className="mt-6 text-center">
-            <p className="text-lg text-gray-700">File uploaded successfully!</p>
-            <a
-              href={uploadedFile.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 hover:text-blue-600"
-            >
-              View uploaded file
-            </a>
+          <div className="mt-4 text-black text-center flex justify-between">
+           File access key - {uploadedFile} 
+           <button onClick={copykey} className='text-blue-700 underline'>copy to clipboard</button>
           </div>
         )}
       </div>
