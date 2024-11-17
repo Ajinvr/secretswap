@@ -94,7 +94,7 @@ function Upload() {
 
         {uploadedFile && (
           <div className="mt-4 text-black text-center flex justify-between">
-           File access key - {uploadedFile} 
+           File access code - {uploadedFile} 
            <button onClick={copykey} className='text-blue-700 underline'>copy to clipboard</button>
           </div>
         )}
