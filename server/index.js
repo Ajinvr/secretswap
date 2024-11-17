@@ -18,7 +18,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.json({ message: 'server is up and running' });
+  res.json({ message: 'server is up' });
 });
 
 app.use('/file', file);
