@@ -66,15 +66,15 @@ function Upload() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900">
-      <div className="max-w-lg w-full p-6 bg-white shadow-lg rounded-lg">
-        <h2 className="text-3xl font-semibold text-center text-gray-700 mb-6">Upload File</h2>
+      <div className="max-w-lg w-full p-6 sm:bg-white sm:shadow-lg rounded-lg">
+        <h2 className="text-3xl font-semibold text-center text-white sm:text-gray-700 mb-6">Upload File</h2>
         <div className="mb-4">
           <input
             type="file"
             onChange={handleFileChange}
             onClick={handleInputClick}
             ref={fileInputRef}
-            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border text-white sm:text-black border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           
         </div>

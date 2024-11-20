@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 function Download() {
   const [inputValue, setInputValue] = useState('');
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
+ 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
@@ -21,7 +21,7 @@ function Download() {
 
         const { filename, mimetype, fileData } = response.data;
 
-        const binaryData = atob(fileData); // Decode base64 to binary
+        const binaryData = atob(fileData);
         const byteArray = new Uint8Array(binaryData.length);
 
         for (let i = 0; i < binaryData.length; i++) {
@@ -48,8 +48,8 @@ function Download() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r bg-gray-900">
-      <div className="bg-gray-100 p-8 rounded-xl shadow-lg w-full sm:w-96 space-y-6">
-        <h2 className="text-3xl font-semibold text-center text-gray-900">
+      <div className="sm:bg-gray-100 p-8 rounded-xl sm:shadow-lg w-full sm:w-96 space-y-6">
+        <h2 className="text-3xl font-semibold text-center text-white sm:text-gray-900">
           Download File
         </h2>
         <input
@@ -70,7 +70,7 @@ function Download() {
         >
           Download
         </button>
-        <div className="text-center text-sm text-gray-600">
+        <div className="text-center text-sm text-gray-500">
           <p>Enter the access code to download your file</p>
         </div>
       </div>
