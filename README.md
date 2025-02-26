@@ -1,5 +1,5 @@
 
-# SecretSwap ![SecretSwap Logo](![fav](https://github.com/user-attachments/assets/79200d5b-f811-4bd5-a2d5-a541f64af06e)
+# SecretSwap (![fav](![fav](https://github.com/user-attachments/assets/6831f12c-56d3-401d-b576-18bba5de23b3)
 )
 
 SecretSwap is a completely anonymous file-sharing platform built using the MERN stack. Instead of traditional links, SecretSwap generates unique access codes for secure file retrieval, ensuring privacy and confidentiality.
